@@ -14,14 +14,19 @@ public class UiScript : MonoBehaviour
     public Button BuyTowerButton;
     public Button SellTowerButton;
 
-    public Transform CreepZonePlayer1;
+    public Button StartButton;
+    public GameObject FogWar;
 
-    private const int costCreep = 15;
-    private const int costTower = 10;
+    private const int CostCreep = 15;
+    private const int CostTower = 10;
 
     private List<Creep> listCreeps;
-    private List<GameObject> listGameObjectsCreeps;
-    private int countCreeps;
+    private List<GameObject> listGOCreepsPlayer1;
+    private List<GameObject> listGOCreepsPlayer2;
+
+    private List<Tower> listTowers;
+    private List<GameObject> listGOTowersPlayer1;
+    private List<GameObject> listGOTowersPlayer2;
 
     void Start ()
 	{
@@ -30,15 +35,31 @@ public class UiScript : MonoBehaviour
 	    BuyCreepButton.onClick.AddListener(buyCreepButtonListener);
         SellCreepButton.onClick.AddListener(sellCreepButtonListener);
 	    BuyTowerButton.onClick.AddListener(buyTowerButtonListener);
+        SellTowerButton.onClick.AddListener(sellTowersButtonListener);
 
-	    countCreeps = 0;
-	    listCreeps = new List<Creep>();
-        listCreeps.Add(new Creep(new Vector3(-3, 2), new Quaternion(0, 0, 0, 0), "Creep"));
-	    listCreeps.Add(new Creep(new Vector3(-3, 1), new Quaternion(0, 0, 0, 0), "Creep"));
-	    listCreeps.Add(new Creep(new Vector3(-3, 0), new Quaternion(0, 0, 0, 0), "Creep"));
-	    listGameObjectsCreeps = new List<GameObject>();
+        StartButton.onClick.AddListener(startButtonListener);
 
-	    checkActiveButton();
+	    listCreeps = new List<Creep>
+	    {
+	        new Creep(new Vector3(-3, 2), new Quaternion(0, 0, 0, 0), "Creep"),
+	        new Creep(new Vector3(-3, 1), new Quaternion(0, 0, 0, 0), "Creep"),
+	        new Creep(new Vector3(-3, 0), new Quaternion(0, 0, 0, 0), "Creep")
+	    };
+	    listGOCreepsPlayer1 = new List<GameObject>();
+	    listGOCreepsPlayer2 = new List<GameObject>();
+
+        listTowers = new List<Tower>
+	    {
+	        new Tower(new Vector3(-4f, 2.5f), new Quaternion(0, 0, 0, 0), "Tower"),
+	        new Tower(new Vector3(-4f, 1.5f), new Quaternion(0, 0, 0, 0), "Tower"),
+	        new Tower(new Vector3(-4f, 0.5f), new Quaternion(0, 0, 0, 0), "Tower"),
+	        new Tower(new Vector3(-4f, -0.5f), new Quaternion(0, 0, 0, 0), "Tower"),
+	        new Tower(new Vector3(-4f, -1.5f), new Quaternion(0, 0, 0, 0), "Tower")
+        };
+	    listGOTowersPlayer1 = new List<GameObject>();
+	    listGOTowersPlayer2 = new List<GameObject>();
+
+        checkActiveButton();
     }
 
     void setTextCoins()
@@ -48,61 +69,113 @@ public class UiScript : MonoBehaviour
 
     void buyCreepButtonListener()
     {
-        Coins -= costCreep;
+        Coins -= CostCreep;
         setTextCoins();
         GameObject newCreep = Instantiate(
-            (GameObject) Resources.Load(listCreeps[listGameObjectsCreeps.Count].Resourse), 
-            listCreeps[listGameObjectsCreeps.Count].Position, 
-            listCreeps[listGameObjectsCreeps.Count].Rotate
+            (GameObject) Resources.Load(listCreeps[listGOCreepsPlayer1.Count].Resourse), 
+            listCreeps[listGOCreepsPlayer1.Count].Position, 
+            listCreeps[listGOCreepsPlayer1.Count].Rotate
         );
-        listGameObjectsCreeps.Add(newCreep);
+        listGOCreepsPlayer1.Add(newCreep);
         checkActiveButton();
     }
-
     void sellCreepButtonListener()
     {
-        Coins += costCreep;
+        Coins += CostCreep;
         setTextCoins();
-        Destroy(listGameObjectsCreeps[listGameObjectsCreeps.Count - 1]);
-        listGameObjectsCreeps.RemoveAt(listGameObjectsCreeps.Count - 1);
+        Destroy(listGOCreepsPlayer1[listGOCreepsPlayer1.Count - 1]);
+        listGOCreepsPlayer1.RemoveAt(listGOCreepsPlayer1.Count - 1);
         checkActiveButton();
     }
 
     void buyTowerButtonListener()
     {
-        Coins -= costTower;
+        Coins -= CostTower;
         setTextCoins();
+        GameObject newTower = Instantiate(
+            (GameObject)Resources.Load(listTowers[listGOTowersPlayer1.Count].Resourse),
+            listTowers[listGOTowersPlayer1.Count].Position,
+            listTowers[listGOTowersPlayer1.Count].Rotate
+        );
+        listGOTowersPlayer1.Add(newTower);
+        checkActiveButton();
+    }
+    void sellTowersButtonListener()
+    {
+        Coins += CostTower;
+        setTextCoins();
+        Destroy(listGOTowersPlayer1[listGOTowersPlayer1.Count - 1]);
+        listGOTowersPlayer1.RemoveAt(listGOTowersPlayer1.Count - 1);
         checkActiveButton();
     }
 
     void checkActiveButton()
     {
-        if (Coins < costCreep)
+        BuyCreepButton.interactable = !(Coins < CostCreep);
+
+        SellCreepButton.interactable = listGOCreepsPlayer1.Count != 0;
+
+        BuyTowerButton.interactable = !(Coins < CostTower);
+
+        SellTowerButton.interactable = listGOTowersPlayer1.Count != 0;
+    }
+
+    void startButtonListener()
+    {
+        System.Random random = new System.Random();
+        int countCreep = random.Next(0, 3);
+        int countTower = random.Next(0, (50 - countCreep * CostCreep) / CostTower);
+
+        // Clear lists
+        foreach (var creep in listGOCreepsPlayer2)
         {
-            BuyCreepButton.interactable = false;
+            Destroy(creep);
         }
-        else
+        listGOCreepsPlayer2.Clear();
+        foreach (var tower in listGOTowersPlayer2)
         {
-            BuyCreepButton.interactable = true;
+            Destroy(tower);
+        }
+        listGOTowersPlayer2.Clear();
+        
+        // Fill lists
+        for (int i = 0; i < countCreep; ++i)
+        {
+            GameObject newCreep = Instantiate(
+                (GameObject)Resources.Load(listCreeps[listGOCreepsPlayer2.Count].Resourse),
+                new Vector3(
+                    Math.Abs(listCreeps[listGOCreepsPlayer2.Count].Position.x), 
+                    listCreeps[listGOCreepsPlayer2.Count].Position.y
+                ),
+                new Quaternion(
+                    listCreeps[listGOCreepsPlayer2.Count].Rotate.x,
+                    -180,
+                    listCreeps[listGOCreepsPlayer2.Count].Rotate.z,
+                    listCreeps[listGOCreepsPlayer2.Count].Rotate.w
+                ) 
+            );
+            listGOCreepsPlayer2.Add(newCreep);
+        }
+        for (int i = 0; i < countTower; ++i)
+        {
+            GameObject newTower = Instantiate(
+                (GameObject)Resources.Load(listTowers[listGOTowersPlayer2.Count].Resourse),
+                new Vector3(
+                    Math.Abs(listTowers[listGOTowersPlayer2.Count].Position.x), 
+                    listTowers[listGOTowersPlayer2.Count].Position.y
+                ),
+                new Quaternion(
+                    listCreeps[listGOCreepsPlayer2.Count].Rotate.x,
+                    -180,
+                    listCreeps[listGOCreepsPlayer2.Count].Rotate.z,
+                    listCreeps[listGOCreepsPlayer2.Count].Rotate.w
+                )
+            );
+            listGOTowersPlayer2.Add(newTower);
         }
 
-        if (listGameObjectsCreeps.Count == 0)
-        {
-            SellCreepButton.interactable = false;
-        }
-        else
-        {
-            SellCreepButton.interactable = true;
-        }
-
-        if (Coins < costTower)
-        {
-            BuyTowerButton.interactable = false;
-        }
-        else
-        {
-            BuyTowerButton.interactable = true;
-        }
+        // Hide fog war
+        FogWar.SetActive(false);
     }
 
     private class Creep
@@ -112,6 +185,19 @@ public class UiScript : MonoBehaviour
         public String Resourse { get; set; }
 
         public Creep(Vector3 position, Quaternion rotate, String resourse)
+        {
+            Position = position;
+            Rotate = rotate;
+            Resourse = resourse;
+        }
+    }
+    private class Tower
+    {
+        public Vector3 Position { get; set; }
+        public Quaternion Rotate { get; set; }
+        public String Resourse { get; set; }
+
+        public Tower(Vector3 position, Quaternion rotate, String resourse)
         {
             Position = position;
             Rotate = rotate;
