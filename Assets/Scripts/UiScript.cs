@@ -123,8 +123,8 @@ public class UiScript : MonoBehaviour
     void startButtonListener()
     {
         System.Random random = new System.Random();
-        int countCreep = random.Next(0, 3);
-        int countTower = random.Next(0, (50 - countCreep * CostCreep) / CostTower);
+        int countCreep = random.Next(0, 4);
+        int countTower = random.Next(0, (50 - countCreep * CostCreep) / CostTower + 1);
 
         // Clear lists
         foreach (var creep in listGOCreepsPlayer2)
