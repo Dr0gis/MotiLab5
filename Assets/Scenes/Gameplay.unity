@@ -904,6 +904,10 @@ MonoBehaviour:
   SellTowerButton: {fileID: 522348698}
   StartButton: {fileID: 1133100921}
   FogWar: {fileID: 1153030849}
+  listGOCreepsPlayer1: []
+  listGOCreepsPlayer2: []
+  listGOTowersPlayer1: []
+  listGOTowersPlayer2: []
 --- !u!1 &1072111658
 GameObject:
   m_ObjectHideFlags: 0
@@ -1423,9 +1427,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1211315570}
   - component: {fileID: 1211315569}
+  - component: {fileID: 1211315571}
   m_Layer: 0
   m_Name: TownHallPlayer1
-  m_TagString: Untagged
+  m_TagString: TownHall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1487,6 +1492,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1211315571
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1211315568}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.2}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 6.63, y: 4.97}
+    newSize: {x: 6.63, y: 4.97}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 6.6, y: 6.7}
+  m_EdgeRadius: 0
 --- !u!1 &1292647055
 GameObject:
   m_ObjectHideFlags: 0
@@ -1903,9 +1933,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1868822093}
   - component: {fileID: 1868822092}
+  - component: {fileID: 1868822094}
   m_Layer: 0
   m_Name: TownHallPlayer2
-  m_TagString: Untagged
+  m_TagString: TownHall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1967,6 +1998,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+--- !u!61 &1868822094
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1868822091}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.2}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 6.63, y: 4.97}
+    newSize: {x: 6.63, y: 4.97}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 6.6, y: 6.7}
+  m_EdgeRadius: 0
 --- !u!1 &1897540917
 GameObject:
   m_ObjectHideFlags: 0
