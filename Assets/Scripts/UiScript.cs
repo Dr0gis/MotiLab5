@@ -21,12 +21,12 @@ public class UiScript : MonoBehaviour
     private const int CostTower = 10;
 
     private List<Creep> listCreeps;
-    private List<GameObject> listGOCreepsPlayer1;
-    private List<GameObject> listGOCreepsPlayer2;
+    public List<GameObject> listGOCreepsPlayer1;
+    public List<GameObject> listGOCreepsPlayer2;
 
     private List<Tower> listTowers;
-    private List<GameObject> listGOTowersPlayer1;
-    private List<GameObject> listGOTowersPlayer2;
+    public List<GameObject> listGOTowersPlayer1;
+    public List<GameObject> listGOTowersPlayer2;
 
     void Start ()
 	{
@@ -41,20 +41,20 @@ public class UiScript : MonoBehaviour
 
 	    listCreeps = new List<Creep>
 	    {
-	        new Creep(new Vector3(-3, 2), new Quaternion(0, 0, 0, 0), "Creep"),
-	        new Creep(new Vector3(-3, 1), new Quaternion(0, 0, 0, 0), "Creep"),
-	        new Creep(new Vector3(-3, 0), new Quaternion(0, 0, 0, 0), "Creep")
+	        new Creep(new Vector3(-2.2f, 2), new Quaternion(0, 0, 0, 0), "Creep"),
+	        new Creep(new Vector3(-2.1f, 1), new Quaternion(0, 0, 0, 0), "Creep"),
+	        new Creep(new Vector3(-2, 0), new Quaternion(0, 0, 0, 0), "Creep")
 	    };
 	    listGOCreepsPlayer1 = new List<GameObject>();
 	    listGOCreepsPlayer2 = new List<GameObject>();
 
         listTowers = new List<Tower>
 	    {
-	        new Tower(new Vector3(-4f, 2.5f), new Quaternion(0, 0, 0, 0), "Tower"),
-	        new Tower(new Vector3(-4f, 1.5f), new Quaternion(0, 0, 0, 0), "Tower"),
-	        new Tower(new Vector3(-4f, 0.5f), new Quaternion(0, 0, 0, 0), "Tower"),
-	        new Tower(new Vector3(-4f, -0.5f), new Quaternion(0, 0, 0, 0), "Tower"),
-	        new Tower(new Vector3(-4f, -1.5f), new Quaternion(0, 0, 0, 0), "Tower")
+	        new Tower(new Vector3(-3.9f, 2.5f), new Quaternion(0, 0, 0, 0), "Tower"),
+	        new Tower(new Vector3(-3.8f, 1.5f), new Quaternion(0, 0, 0, 0), "Tower"),
+	        new Tower(new Vector3(-3.7f, 0.5f), new Quaternion(0, 0, 0, 0), "Tower"),
+	        new Tower(new Vector3(-3.6f, -0.5f), new Quaternion(0, 0, 0, 0), "Tower"),
+	        new Tower(new Vector3(-3.5f, -1.5f), new Quaternion(0, 0, 0, 0), "Tower")
         };
 	    listGOTowersPlayer1 = new List<GameObject>();
 	    listGOTowersPlayer2 = new List<GameObject>();
@@ -122,6 +122,8 @@ public class UiScript : MonoBehaviour
 
     void startButtonListener()
     {
+        StartButton.interactable = false;
+
         System.Random random = new System.Random();
         int countCreep = random.Next(0, 4);
         int countTower = random.Next(0, (50 - countCreep * CostCreep) / CostTower + 1);
@@ -176,6 +178,21 @@ public class UiScript : MonoBehaviour
 
         // Hide fog war
         FogWar.SetActive(false);
+
+
+        foreach (var creep in listGOCreepsPlayer1)
+        {
+            creep.GetComponent<Rigidbody2D>().velocity = Vector2.right;
+        }
+        foreach (var creep in listGOCreepsPlayer2)
+        {
+            creep.GetComponent<Rigidbody2D>().velocity = Vector2.left;
+        }
+    }
+
+    public void result()
+    {
+        print("CreepPlayer1: " + listGOCreepsPlayer1.Count + " | TowerPlayer1: " + listGOTowersPlayer1.Count + " | CreepPlayer2: " + listGOCreepsPlayer2.Count + " | TowerPlayer2: " + listGOTowersPlayer2.Count);
     }
 
     private class Creep
