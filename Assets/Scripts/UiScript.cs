@@ -41,9 +41,9 @@ public class UiScript : MonoBehaviour
 
 	    listCreeps = new List<Creep>
 	    {
-	        new Creep(new Vector3(-2.2f, 2), new Quaternion(0, 0, 0, 0), "Creep"),
+	        new Creep(new Vector3(-2f, 2), new Quaternion(0, 0, 0, 0), "Creep"),
 	        new Creep(new Vector3(-2.1f, 1), new Quaternion(0, 0, 0, 0), "Creep"),
-	        new Creep(new Vector3(-2, 0), new Quaternion(0, 0, 0, 0), "Creep")
+	        new Creep(new Vector3(-2.2f, 0), new Quaternion(0, 0, 0, 0), "Creep")
 	    };
 	    listGOCreepsPlayer1 = new List<GameObject>();
 	    listGOCreepsPlayer2 = new List<GameObject>();
@@ -123,6 +123,10 @@ public class UiScript : MonoBehaviour
     void startButtonListener()
     {
         StartButton.interactable = false;
+        BuyCreepButton.interactable = false;
+        SellCreepButton.interactable = false;
+        BuyTowerButton.interactable = false;
+        SellTowerButton.interactable = false;
 
         System.Random random = new System.Random();
         int countCreep = random.Next(0, 4);
@@ -179,14 +183,13 @@ public class UiScript : MonoBehaviour
         // Hide fog war
         FogWar.SetActive(false);
 
-
         foreach (var creep in listGOCreepsPlayer1)
         {
-            creep.GetComponent<Rigidbody2D>().velocity = Vector2.right;
+            creep.GetComponent<creepController>().walk(true);
         }
         foreach (var creep in listGOCreepsPlayer2)
         {
-            creep.GetComponent<Rigidbody2D>().velocity = Vector2.left;
+            creep.GetComponent<creepController>().walk(false);
         }
     }
 
