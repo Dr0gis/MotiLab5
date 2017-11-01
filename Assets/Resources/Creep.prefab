@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 61108223720752230}
   - component: {fileID: 50411757309301758}
   - component: {fileID: 114133735150674212}
+  - component: {fileID: 95199254672524936}
   m_Layer: 8
   m_Name: Creep
   m_TagString: Creep
@@ -88,6 +89,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.8, y: 1.8}
   m_EdgeRadius: 0
+--- !u!95 &95199254672524936
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1710867256327462}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c48da88b1fe9e8341be5f8cd7d9d5b90, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 1
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114133735150674212
 MonoBehaviour:
   m_ObjectHideFlags: 1
