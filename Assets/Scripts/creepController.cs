@@ -5,6 +5,7 @@ using UnityEngine;
 public class creepController : MonoBehaviour
 {
     public bool finish;
+    public bool wasDestroyed;
 
     private Rigidbody2D rigidbody2D;
     private Animator animator;
@@ -15,6 +16,7 @@ public class creepController : MonoBehaviour
 	    rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         finish = false;
+	    wasDestroyed = false;
 	}
 	
 	// Update is called once per frame
@@ -49,6 +51,7 @@ public class creepController : MonoBehaviour
 
     public void destoyed()
     {
+        wasDestroyed = true;
         stop();
         GetComponent<Animator>().SetBool("Die", true);
         Destroy(gameObject, GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
@@ -61,9 +64,12 @@ public class creepController : MonoBehaviour
         UiScript uiScript = GameObject.Find("EventSystem").GetComponent<UiScript>();
         foreach (var creep in uiScript.listGOCreepsPlayer1)
         {
-            if (creep != null)
+            if (creep.gameObject != null)
             {
-                finishAll = creep.GetComponent<creepController>().finish;
+                if (!creep.gameObject.GetComponent<creepController>().wasDestroyed)
+                {
+                    finishAll = creep.GetComponent<creepController>().finish;
+                }
             }
         }
 
@@ -84,8 +90,9 @@ public class creepController : MonoBehaviour
         }
     }
 
-    void OnDestroy()
+    public void CheckFinishAndDestroy()
     {
+        destoyed();
         checkAllFinish();
     }
 }

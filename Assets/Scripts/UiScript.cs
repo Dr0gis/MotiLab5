@@ -198,6 +198,11 @@ public class UiScript : MonoBehaviour
         // Hide fog war
         FogWar.SetActive(false);
 
+        if (listGOCreepsPlayer1.Count == 0 && listGOCreepsPlayer2.Count == 0)
+        {
+            result();
+        }
+
         foreach (var creep in listGOCreepsPlayer1)
         {
             creep.GetComponent<creepController>().walk(true);
@@ -249,15 +254,18 @@ public class UiScript : MonoBehaviour
 		if (result1 > result2)
 		{
 			Winner.text = "Player 1 wins";
+            Winner.color = Color.green;
 		}
 		else if (result2 > result1)
 		{
 			Winner.text = "Player 2 wins";
-		}
+		    Winner.color = Color.red;
+        }
 		else
 		{
 			Winner.text = "Draw";
-		}
+		    Winner.color = Color.yellow;
+        }
 
 		Spend1.text = spend1.ToString ();
 		Spend2.text = spend2.ToString ();
@@ -266,7 +274,7 @@ public class UiScript : MonoBehaviour
 		Total1.text = result1.ToString ();
 		Total2.text = result2.ToString ();
 
-		GameObject.Find ("EventSystem").GetComponent<HideCanvas> ().ShowCanvas ();
+		GameObject.Find ("EventSystem").GetComponent<HideCanvas>().ShowCanvas ();
     }
 		
     private class Creep

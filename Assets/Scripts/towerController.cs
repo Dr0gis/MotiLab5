@@ -30,7 +30,7 @@ public class towerController : MonoBehaviour
             //uiScript.listGOTowersPlayer2.Remove(gameObject);
 
 
-            collider2D.gameObject.GetComponent<creepController>().destoyed(); 
+            collider2D.gameObject.GetComponent<creepController>().CheckFinishAndDestroy();
             //Destroy(collider2D.gameObject);
             Destroy(gameObject);
         }
